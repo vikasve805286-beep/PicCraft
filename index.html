@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PicCraft - Premium Image Optimizer Suite</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased">
+
+    <header class="gradient-bg text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-wand-magic-sparkles text-xl text-amber-300"></i>
+                <h1 class="text-xl font-bold tracking-tight">PicCraft <span class="text-[10px] bg-amber-400 text-slate-900 px-2 py-0.5 rounded-full font-bold uppercase">Pro</span></h1>
+            </div>
+            <span class="text-amber-300 text-sm font-semibold"><i class="fa-solid fa-crown mr-1"></i> Premium</span>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 mt-4 text-center">
+        <div class="bg-gray-200 border border-dashed border-gray-400 rounded-lg p-2 text-xs text-gray-500">
+            ADVERTISEMENT SLOT (728x90)
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <div class="lg:col-span-2 space-y-6">
+            
+            <div id="dropZone" class="bg-white border-2 border-dashed border-indigo-300 rounded-2xl p-6 text-center shadow-sm relative transition-all duration-300 cursor-pointer hover:border-indigo-500">
+                <input type="file" id="fileInput" class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" accept="image/*">
+                
+                <div id="uploadPrompt" class="relative z-10 pointer-events-none">
+                    <i class="fa-solid fa-cloud-arrow-up text-4xl text-indigo-500 mb-2"></i>
+                    <h3 class="text-base font-semibold text-slate-700">Tap / Click here to upload image</h3>
+                    <p class="text-xs text-slate-400 mt-1">Supports PNG, JPG, WebP (Max 20MB)</p>
+                </div>
+
+                <div id="uploadSuccess" class="hidden flex flex-col items-center justify-center relative z-10 pointer-events-none">
+                    <div class="relative mb-2">
+                        <img id="uploadThumbnail" class="w-16 h-16 object-cover rounded-xl border-2 border-emerald-400 shadow-md" src="" alt="Uploaded source">
+                        <i class="fa-solid fa-circle-check text-xl text-emerald-500 absolute -bottom-1 -right-1 bg-white rounded-full"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-emerald-700">Image Uploaded!</h3>
+                    <p id="fileNameDisplay" class="text-xs text-slate-500 font-medium mt-1 truncate max-w-[220px] bg-white px-3 py-1 rounded-full border border-emerald-200 shadow-xs"></p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 hidden" id="controlPanel">
+                <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-indigo-600"></i> Optimization Toolkit
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                        <label class="block text-xs font-bold text-slate-700 mb-2 flex justify-between">
+                            <span><i class="fa-solid fa-compress text-indigo-500 mr-1"></i> 1. Image Compression</span>
+                            <span id="qualityVal" class="text-indigo-600 font-bold">80%</span>
+                        </label>
+                        <input type="range" id="qualityRange" min="10" max="100" value="80" class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+                    </div>
+
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                        <label class="block text-xs font-bold text-slate-700 mb-2">
+                            <i class="fa-solid fa-file-image text-indigo-500 mr-1"></i> 2. Convert Format
+                        </label>
+                        <select id="formatSelect" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="image/jpeg">JPEG (Best for Photos)</option>
+                            <option value="image/png">PNG (Lossless/Transparent)</option>
+                            <option value="image/webp">WebP (Next-Gen Size)</option>
+                        </select>
+                    </div>
+
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                        <label class="block text-xs font-bold text-slate-700 mb-2">
+                            <i class="fa-solid fa-maximize text-indigo-500 mr-1"></i> 3. Custom Resize (Px)
+                        </label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="number" id="resizeWidth" placeholder="Width" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <input type="number" id="resizeHeight" placeholder="Height" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                        <label class="block text-xs font-bold text-slate-700 mb-2 flex justify-between">
+                            <span><i class="fa-solid fa-code text-indigo-500 mr-1"></i> 4. Base64 Code</span>
+                        </label>
+                        <button onclick="copyBase64()" class="w-full bg-slate-200 text-slate-700 text-xs font-semibold py-1.5 rounded-lg transition hover:bg-slate-300">
+                            <i class="fa-solid fa-copy mr-1"></i> Copy Base64
+                        </button>
+                    </div>
+                </div>
+
+                <button id="processBtn" class="w-full mt-5 gradient-bg text-white font-bold py-3 rounded-xl shadow-md hover:opacity-95 transition flex items-center justify-center gap-2 text-sm">
+                    <i class="fa-solid fa-bolt"></i> Optimize Image
+                </button>
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 hidden" id="previewPanel">
+                <h2 class="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-eye text-emerald-500"></i> Live Preview
+                </h2>
+                
+                <div class="bg-slate-900 rounded-xl overflow-hidden aspect-video flex items-center justify-center mb-4 border border-slate-700">
+                    <img id="previewImage" src="" alt="Preview" class="max-h-full max-w-full object-contain">
+                </div>
+
+                <div class="space-y-2 text-xs border-t border-slate-100 pt-3">
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Original Size:</span>
+                        <span id="origSize" class="font-medium">-</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Optimized Size:</span>
+                        <span id="optSize" class="font-bold text-emerald-600">-</span>
+                    </div>
+                </div>
+
+                <a id="downloadBtn" href="#" download="optimized" class="w-full mt-4 bg-emerald-500 text-white font-bold py-3 rounded-xl shadow-md hover:bg-emerald-600 transition flex items-center justify-center gap-2 text-center text-sm">
+                    <i class="fa-solid fa-download"></i> Download Optimized
+                </a>
+            </div>
+
+            <div class="bg-gray-200 border border-dashed border-gray-400 rounded-2xl p-4 text-center text-xs text-gray-500 min-h-[150px] flex items-center justify-center">
+                ADVERTISEMENT SLOT (300x250)
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let originalFile = null;
+        let finalBase64 = "";
+
+        const fileInput = document.getElementById('fileInput');
+        const dropZone = document.getElementById('dropZone');
+        const uploadPrompt = document.getElementById('uploadPrompt');
+        const uploadSuccess = document.getElementById('uploadSuccess');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const uploadThumbnail = document.getElementById('uploadThumbnail');
+        
+        const controlPanel = document.getElementById('controlPanel');
+        const previewPanel = document.getElementById('previewPanel');
+        const qualityRange = document.getElementById('qualityRange');
+        const qualityVal = document.getElementById('qualityVal');
+
+        qualityRange.addEventListener('input', (e) => {
+            qualityVal.textContent = e.target.value + '%';
+        });
+
+        // 1. Fixed File Upload Logic
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            originalFile = file;
+
+            // Show UI changes immediately
+            uploadPrompt.classList.add('hidden');
+            uploadSuccess.classList.remove('hidden');
+            fileNameDisplay.textContent = file.name;
+            dropZone.className = "bg-emerald-50 border-2 border-emerald-400 rounded-2xl p-6 text-center shadow-sm relative transition-all duration-300 cursor-pointer";
+
+            controlPanel.classList.remove('hidden');
+            previewPanel.classList.remove('hidden');
+
+            document.getElementById('origSize').textContent = (file.size / 1024).toFixed(1) + ' KB';
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(event) {
+                // Set the tiny thumbnail view on top box
+                uploadThumbnail.src = event.target.result;
+
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = function() {
+                    document.getElementById('resizeWidth').value = img.width;
+                    document.getElementById('resizeHeight').value = img.height;
+                    document.getElementById('previewImage').src = event.target.result;
+                }
+            };
+        });
+
+        // 2. Optimization Logic
+        document.getElementById('processBtn').addEventListener('click', () => {
+            if (!originalFile) return;
+
+            const format = document.getElementById('formatSelect').value;
+            const quality = qualityRange.value / 100;
+            const width = parseInt(document.getElementById('resizeWidth').value) || 800;
+            const height = parseInt(document.getElementById('resizeHeight').value) || 600;
+
+            const reader = new FileReader();
+            reader.readAsDataURL(originalFile);
+            reader.onload = function(event) {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    const optimizedUrl = canvas.toDataURL(format, quality);
+                    finalBase64 = optimizedUrl;
+
+                    document.getElementById('previewImage').src = optimizedUrl;
+                    
+                    const downloadBtn = document.getElementById('downloadBtn');
+                    downloadBtn.href = optimizedUrl;
+                    downloadBtn.download = `optimized_${Date.now()}.${format.split('/')[1]}`;
+
+                    const approxBytes = Math.round((optimizedUrl.length - 81) * 0.75);
+                    document.getElementById('optSize').textContent = (approxBytes / 1024).toFixed(1) + ' KB';
+                }
+            };
+        });
+
+        // 3. Base64 Copy Function
+        function copyBase64() {
+            if (!finalBase64) {
+                alert("Pehle Image Optimize karein!");
+                return;
+            }
+            navigator.clipboard.writeText(finalBase64);
+            alert("📋 Base64 Code Copied!");
+        }
+    </script>
+</body>
+</html>
