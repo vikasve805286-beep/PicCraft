@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://vikasve805286-beep.github.io/PicCraft/sitemap.xml
+Sitemap: https://piccraft.in/sitemap.xml
